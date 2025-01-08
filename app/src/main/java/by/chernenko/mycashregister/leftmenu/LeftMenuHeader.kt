@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun LeftMenuHeader() {
@@ -18,8 +19,8 @@ fun LeftMenuHeader() {
             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("Смена открыта")
-        Text("08.01.2025", fontWeight = FontWeight.Bold)
+        Text("Смена открыта", fontSize = 16.sp)
+        Text("08.01.2025", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     }
     Row(
         modifier = Modifier
@@ -27,8 +28,8 @@ fun LeftMenuHeader() {
             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("Оборот за смену")
-        Text("5000 BYN", fontWeight = FontWeight.Bold)
+        Text("Оборот за смену", fontSize = 16.sp)
+        Text("5000 BYN", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     }
     Row(
         modifier = Modifier
@@ -36,7 +37,7 @@ fun LeftMenuHeader() {
             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("Наличных в кассе")
-        Text("1250 BYN", fontWeight = FontWeight.Bold)
+        Text("Наличных в кассе", fontSize = 16.sp)
+        Text("1250 BYN", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     }
 }

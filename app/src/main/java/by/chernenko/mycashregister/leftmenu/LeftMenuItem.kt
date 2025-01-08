@@ -20,7 +20,7 @@ fun LeftMenuItem(
     NavigationDrawerItem(
         label = { Text(text = text) },
         selected = selected,
-        icon = { Icon(icon, contentDescription = null) },
+        icon = { Icon(icon, contentDescription = text) },
         colors = NavigationDrawerItemDefaults.colors(
             selectedContainerColor = if (selected) Ultramarine else White,
             selectedTextColor = if (selected) White else Ultramarine,
