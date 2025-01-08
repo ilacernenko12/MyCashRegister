@@ -1,0 +1,21 @@
+package by.chernenko.mycashregister.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
+
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
+
+val Ultramarine = Color(0xFF002E8D)
+val Azure = Color(0xFF32A8FF)
+val Storm = Color(0xFFBBDCFF)
+val Haze = Color(0xFF29374A)
+val Red = Color(0xFFCB2C2C)
+val Blue = Color(0xFF1555A4)
+val Gray = Color(0xFF757575)
+val Black = Color(0xFF000000)
+val White = Color(0xFFFFFFFF)
