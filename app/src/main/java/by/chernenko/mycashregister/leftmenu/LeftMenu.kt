@@ -19,30 +19,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import by.chernenko.mycashregister.navigation.Routes
 import by.chernenko.mycashregister.ui.theme.Black
 import by.chernenko.mycashregister.ui.theme.Ultramarine
 import by.chernenko.mycashregister.ui.theme.White
 import kotlinx.coroutines.launch
 
 @Composable
-fun LeftMenu(content: @Composable () -> Unit) {
+fun LeftMenu(
+    navController: NavController
+) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val selectedIndex = remember { mutableIntStateOf(0) }
 
+
     val items = listOf(
-        Pair("Продажа", Icons.Outlined.ShoppingCart),
-        Pair("Возврат", Icons.Outlined.Refresh),
-        Pair("Закрытие смены", Icons.Outlined.DateRange),
-        Pair("Внесение наличных", Icons.Outlined.KeyboardArrowUp),
-        Pair("Изъятие наличных", Icons.Outlined.KeyboardArrowDown),
-        Pair("Отчеты", Icons.Outlined.Info)
+        Triple("Продажа", Icons.Outlined.ShoppingCart, Routes.Sale.route),
+        Triple("Возврат", Icons.Outlined.Refresh, Routes.Refund.route),
+        Triple("Закрытие смены", Icons.Outlined.DateRange, Routes.CloseBatch.route),
+        Triple("Внесение наличных", Icons.Outlined.KeyboardArrowUp, Routes.Deposit.route),
+        Triple("Изъятие наличных", Icons.Outlined.KeyboardArrowDown, Routes.Withdrawal.route),
+        Triple("Отчеты", Icons.Outlined.Info, Routes.Reports.route)
     )
 
     ModalNavigationDrawer(
         scrimColor = Ultramarine,
         drawerState = drawerState,
-        content = content,
         drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = White,
@@ -59,11 +63,17 @@ fun LeftMenu(content: @Composable () -> Unit) {
                         icon = item.second,
                         onClick = {
                             selectedIndex.intValue = index
+                            navController.navigate(item.third) {
+                                popUpTo(Routes.Sale.route)
+                            }
+
                             scope.launch { drawerState.close() }
                         }
                     )
                 }
             }
         }
-    )
+    ) {
+
+    }
 }
