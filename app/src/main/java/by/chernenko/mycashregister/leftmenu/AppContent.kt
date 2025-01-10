@@ -38,6 +38,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.chernenko.mycashregister.navigation.NavigationGraph
 import by.chernenko.mycashregister.navigation.Routes
+import by.chernenko.mycashregister.sale.SaleViewModel
 import by.chernenko.mycashregister.ui.theme.Black
 import by.chernenko.mycashregister.ui.theme.Ultramarine
 import by.chernenko.mycashregister.ui.theme.White

@@ -24,7 +24,7 @@ fun NavigationGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(Routes.Sale.route) { SaleScreen(modifier) }
+        composable(Routes.Sale.route) { SaleScreen() }
         composable(Routes.Refund.route) { RefundScreen() }
         composable(Routes.CloseBatch.route) { CloseBatchScreen() }
         composable(Routes.Deposit.route) { DepositScreen() }
