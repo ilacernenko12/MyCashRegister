@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
 package by.chernenko.mycashregister.leftmenu
 
@@ -38,7 +40,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.chernenko.mycashregister.navigation.NavigationGraph
 import by.chernenko.mycashregister.navigation.Routes
-import by.chernenko.mycashregister.sale.SaleViewModel
 import by.chernenko.mycashregister.ui.theme.Black
 import by.chernenko.mycashregister.ui.theme.Ultramarine
 import by.chernenko.mycashregister.ui.theme.White
@@ -63,6 +64,7 @@ fun AppContent(
             Routes.Deposit.route -> "Внесение наличных"
             Routes.Withdrawal.route -> "Изъятие наличных"
             Routes.Reports.route -> "Отчеты"
+            Routes.Cart.route -> "Предчек"
             else -> "Касса"
         }
     }
@@ -81,7 +83,7 @@ fun AppContent(
 
                 HorizontalDivider(modifier = Modifier.padding(16.dp))
 
-                MenuItems().forEachIndexed { index, item ->
+                menuItems().forEachIndexed { index, item ->
                     LeftMenuItem(text = item.first,
                         selected = index == selectedIndex.intValue,
                         icon = item.second,
@@ -101,7 +103,11 @@ fun AppContent(
         Scaffold(
             topBar = { MyAppBar(title, scope, drawerState, currentRoute) },
             content = { padding ->
-                NavigationGraph(navController, Modifier.padding(padding))
+                NavigationGraph(
+                    onTotalAmountClick = { navController.navigate(Routes.Cart.route) },
+                    navController = navController,
+                    modifier = Modifier.padding(padding)
+                )
             })
     }
 }
@@ -133,7 +139,7 @@ fun MyAppBar(
                 }
                 IconButton(onClick = { /* TODO() */ }) {
                     Icon(
-                        Icons.Filled.Favorite, contentDescription = "delete"
+                        Icons.Filled.Favorite, contentDescription = "catalog"
                     )
                 }
             }
@@ -166,7 +172,7 @@ fun MyAppBar(
 }
 
 @Composable
-fun MenuItems(): List<Triple<String, ImageVector, String>> {
+fun menuItems(): List<Triple<String, ImageVector, String>> {
     return listOf(
         Triple("Продажа", Icons.Outlined.ShoppingCart, Routes.Sale.route),
         Triple("Возврат", Icons.Outlined.Refresh, Routes.Refund.route),

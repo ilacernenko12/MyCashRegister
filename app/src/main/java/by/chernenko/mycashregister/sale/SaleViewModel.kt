@@ -26,6 +26,8 @@ class SaleViewModel : ViewModel() {
                     else -> { processInput(number = action.button) }
                 }
             }
+
+            NumpadAction.PressClear -> { }
         }
     }
 

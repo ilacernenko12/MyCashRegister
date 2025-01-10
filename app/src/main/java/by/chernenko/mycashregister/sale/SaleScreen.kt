@@ -12,13 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import by.chernenko.mycashregister.common.GoodsItem
 import by.chernenko.mycashregister.common.InputAmountView
 import by.chernenko.mycashregister.common.NumPad
 import by.chernenko.mycashregister.common.NumpadAction
 import by.chernenko.mycashregister.common.TotalAmountView
 
 @Composable
-fun SaleScreen(viewModel: SaleViewModel = viewModel()) {
+fun SaleScreen(
+    onTotalAmountClick: () -> Unit,
+    viewModel: SaleViewModel = viewModel()
+) {
 
     val input by viewModel.input.collectAsState()
     val totalAmount by viewModel.totalAmount.collectAsState()
@@ -32,7 +36,7 @@ fun SaleScreen(viewModel: SaleViewModel = viewModel()) {
         TotalAmountView(
             amount = totalAmount,
             quantity = quantity,
-            onClick = { }
+            onClick = { onTotalAmountClick() }
         )
         Spacer(modifier = Modifier.padding(12.dp))
         InputAmountView(input)
@@ -49,5 +53,5 @@ fun SaleScreen(viewModel: SaleViewModel = viewModel()) {
 @Preview(showBackground = true)
 @Composable
 fun SaleScreenPreview() {
-    SaleScreen()
+
 }

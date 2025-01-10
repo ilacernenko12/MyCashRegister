@@ -7,4 +7,5 @@ sealed class Routes(val route: String) {
     data object Deposit: Routes("deposit")
     data object Withdrawal: Routes("withdrawal")
     data object Reports: Routes("reports")
+    data object Cart: Routes("cart")
 }
