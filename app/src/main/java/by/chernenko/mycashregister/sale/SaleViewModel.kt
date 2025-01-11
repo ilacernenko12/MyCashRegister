@@ -2,71 +2,90 @@ package by.chernenko.mycashregister.sale
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.chernenko.data.CartDao
-import by.chernenko.data.CartEntity
+import by.chernenko.domain.model.CartItemModel
+import by.chernenko.domain.usecase.CartUseCase
 import by.chernenko.mycashregister.common.NumpadAction
+import by.chernenko.mycashregister.launchIO
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class SaleViewModel @Inject constructor(
-    private val cartDao: CartDao
+    private val cartUseCase: CartUseCase
 ) : ViewModel() {
-    private val _totalAmount = MutableStateFlow("0,00")
-    val totalAmount: StateFlow<String> = _totalAmount.asStateFlow()
+    private val _totalAmount = MutableStateFlow(0.0)
+    val totalAmount: StateFlow<String> = _totalAmount
+        .map { String.format(Locale.US, "%.2f", it).replace('.', ',') }
+        .stateIn(viewModelScope, SharingStarted.Lazily, "0,00")
 
     private val _quantity = MutableStateFlow(0)
     val quantity: StateFlow<Int> = _quantity.asStateFlow()
 
-    private val _input = MutableStateFlow("0,00")
+    // TODO(отрефакторить как и totalAmount)
+    private val _input = MutableStateFlow(INITIAL_VALUE)
     val input: StateFlow<String> = _input.asStateFlow()
 
     fun handleAction(action: NumpadAction) {
         when (action) {
             is NumpadAction.PressButton -> {
                 when (action.button) {
-                    "C" -> { resetInput() }
-                    "В ЧЕК" -> { addToReceipt() }
-                    else -> { processInput(number = action.button) }
+                    "C" -> {
+                        resetInput()
+                    }
+
+                    "В ЧЕК" -> {
+                        addToReceipt()
+                    }
+
+                    else -> {
+                        processInput(number = action.button)
+                    }
                 }
             }
 
-            NumpadAction.PressClear -> { }
+            NumpadAction.PressClear -> {}
+        }
+    }
+
+    private fun addToReceipt() {
+        if (_input.value == INITIAL_VALUE) return
+
+        val totalAmount = _totalAmount.value
+        val inputAmount = _input.value.replace(',', '.').toDoubleOrNull() ?: 0.0
+
+        _totalAmount.value = totalAmount + inputAmount
+
+        incrementQuantity()
+        addCartItemToDatabase(price = _input.value, quantity = _quantity.value) // т.к. кол-во инкрементится то и в бд записывается тоже
+        resetInput()
+    }
+
+    private fun addCartItemToDatabase(price: String, quantity: Int) {
+        viewModelScope.launchIO(coroutineName = "AddToCart", errorAction = { TODO() }) {
+            cartUseCase.add(
+                CartItemModel(
+                    price = price,
+                    quantity = quantity,
+                    discount = 0,
+                    discountedPrice = price
+                )
+            )
         }
     }
 
     private fun resetInput() {
-        _input.value = "0,00"
+        _input.value = INITIAL_VALUE
     }
 
-    private fun addToReceipt() {
-        if (_input.value == "0,00") return
-
-        // UI update
-        if (_totalAmount.value == "0,00") {
-            _totalAmount.value = _input.value
-        } else {
-            val doubleTotal = _totalAmount.value.replace(',', '.').toDouble()
-            val doubleInput = _input.value.replace(',', '.').toDouble()
-            _totalAmount.value = String.format("%.2f", doubleTotal + doubleInput).replace('.', ',')
-        }
+    private fun incrementQuantity() {
         _quantity.value += 1
-        _input.value = "0,00"
-
-        // Save data
-        viewModelScope.launch(Dispatchers.IO) {
-            cartDao.insert(CartEntity(
-                price = 5,
-                quantity = 2,
-                discount = 0,
-                discountedPrice = 5
-            ))
-        }
     }
 
     private fun processInput(number: String) {
@@ -93,13 +112,17 @@ class SaleViewModel @Inject constructor(
             val afterDecimal = value.substring(value.length - 2)
             "$beforeDecimal,$afterDecimal"
         } else {
-            val formatted = newValue.substring(0, newValue.length - 2) + "," + newValue.substring(newValue.length - 2)
+            val formatted = newValue.substring(
+                0,
+                newValue.length - 2
+            ) + "," + newValue.substring(newValue.length - 2)
             formatted
         }
     }
 
-    companion object {
+    private companion object {
         const val MAX_INPUT_AMOUNT_LENGTH = 8
         const val MAX_SHOW_AMOUNT_LENGTH = 8
+        const val INITIAL_VALUE = "0,00"
     }
 }

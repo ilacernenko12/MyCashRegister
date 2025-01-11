@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "MyCashRegister"
 include(":app")
 include(":data")
+include(":domain")

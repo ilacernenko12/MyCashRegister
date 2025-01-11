@@ -2,7 +2,7 @@ package by.chernenko.mycashregister.di
 
 import android.content.Context
 import androidx.room.Room
-import by.chernenko.data.CartDao
+import by.chernenko.data.dao.CartDao
 import by.chernenko.data.CashRegisterDatabase
 import dagger.Module
 import dagger.Provides

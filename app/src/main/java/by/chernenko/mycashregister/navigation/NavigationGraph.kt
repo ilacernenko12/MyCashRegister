@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import by.chernenko.mycashregister.closebatch.CloseBatchScreen
 import by.chernenko.mycashregister.common.CartScreen
-import by.chernenko.mycashregister.common.GoodsItem
+import by.chernenko.mycashregister.common.GoodsItemUi
 import by.chernenko.mycashregister.deposit.DepositScreen
 import by.chernenko.mycashregister.refund.RefundScreen
 import by.chernenko.mycashregister.reports.ReportsScreen
@@ -23,34 +23,34 @@ fun NavigationGraph(
     startDestination: String = Routes.Sale.route,
     onTotalAmountClick: () -> Unit
 ) {
-    val testGoodsItems = listOf(
-        GoodsItem(amount = 2.40, quantity = 1),
-        GoodsItem(amount = 5.00, quantity = 2),
-        GoodsItem(amount = 7.90, quantity = 1),
-        GoodsItem(amount = 1.50, quantity = 3),
-        GoodsItem(amount = 0.90, quantity = 2),
-        GoodsItem(amount = 1.00, quantity = 2),
-        GoodsItem(amount = 0.50, quantity = 2),
-        GoodsItem(amount = 10.00, quantity = 4),
-        GoodsItem(amount = 50.00, quantity = 1),
-        GoodsItem(amount = 2.00, quantity = 2),
-        GoodsItem(amount = 7.00, quantity = 3),
-        GoodsItem(amount = 2.50, quantity = 4),
-        GoodsItem(amount = 3.80, quantity = 2),
-        GoodsItem(amount = 199.99, quantity = 1),
-        GoodsItem(amount = 9.99, quantity = 5),
-        GoodsItem(amount = 1.50, quantity = 3),
-        GoodsItem(amount = 0.90, quantity = 2),
-        GoodsItem(amount = 1.00, quantity = 2),
-        GoodsItem(amount = 0.50, quantity = 2),
-        GoodsItem(amount = 10.00, quantity = 4),
-        GoodsItem(amount = 50.00, quantity = 1),
-        GoodsItem(amount = 2.00, quantity = 2),
-        GoodsItem(amount = 7.00, quantity = 3),
-        GoodsItem(amount = 2.50, quantity = 4),
-        GoodsItem(amount = 3.80, quantity = 2),
-        GoodsItem(amount = 199.99, quantity = 1),
-        GoodsItem(amount = 9.99, quantity = 5)
+    val testGoodsItemUis = listOf(
+        GoodsItemUi(amount = 2.40, quantity = 1),
+        GoodsItemUi(amount = 5.00, quantity = 2),
+        GoodsItemUi(amount = 7.90, quantity = 1),
+        GoodsItemUi(amount = 1.50, quantity = 3),
+        GoodsItemUi(amount = 0.90, quantity = 2),
+        GoodsItemUi(amount = 1.00, quantity = 2),
+        GoodsItemUi(amount = 0.50, quantity = 2),
+        GoodsItemUi(amount = 10.00, quantity = 4),
+        GoodsItemUi(amount = 50.00, quantity = 1),
+        GoodsItemUi(amount = 2.00, quantity = 2),
+        GoodsItemUi(amount = 7.00, quantity = 3),
+        GoodsItemUi(amount = 2.50, quantity = 4),
+        GoodsItemUi(amount = 3.80, quantity = 2),
+        GoodsItemUi(amount = 199.99, quantity = 1),
+        GoodsItemUi(amount = 9.99, quantity = 5),
+        GoodsItemUi(amount = 1.50, quantity = 3),
+        GoodsItemUi(amount = 0.90, quantity = 2),
+        GoodsItemUi(amount = 1.00, quantity = 2),
+        GoodsItemUi(amount = 0.50, quantity = 2),
+        GoodsItemUi(amount = 10.00, quantity = 4),
+        GoodsItemUi(amount = 50.00, quantity = 1),
+        GoodsItemUi(amount = 2.00, quantity = 2),
+        GoodsItemUi(amount = 7.00, quantity = 3),
+        GoodsItemUi(amount = 2.50, quantity = 4),
+        GoodsItemUi(amount = 3.80, quantity = 2),
+        GoodsItemUi(amount = 199.99, quantity = 1),
+        GoodsItemUi(amount = 9.99, quantity = 5)
     )
     NavHost(
         navController = navController,
@@ -66,6 +66,6 @@ fun NavigationGraph(
         composable(Routes.Deposit.route) { DepositScreen() }
         composable(Routes.Withdrawal.route) { WithdrawalScreen() }
         composable(Routes.Reports.route) { ReportsScreen() }
-        composable(Routes.Cart.route) { CartScreen(testGoodsItems) }
+        composable(Routes.Cart.route) { CartScreen(testGoodsItemUis) }
     }
 }

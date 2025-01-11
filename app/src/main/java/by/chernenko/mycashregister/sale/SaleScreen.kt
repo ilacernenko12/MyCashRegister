@@ -11,12 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import by.chernenko.mycashregister.common.GoodsItem
 import by.chernenko.mycashregister.common.InputAmountView
 import by.chernenko.mycashregister.common.NumPad
 import by.chernenko.mycashregister.common.NumpadAction
 import by.chernenko.mycashregister.common.TotalAmountView
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun SaleScreen(
