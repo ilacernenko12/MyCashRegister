@@ -21,7 +21,7 @@ import by.chernenko.mycashregister.common.TotalAmountView
 @Composable
 fun SaleScreen(
     onTotalAmountClick: () -> Unit,
-    viewModel: SaleViewModel = viewModel()
+    viewModel: SaleViewModel
 ) {
 
     val input by viewModel.input.collectAsState()

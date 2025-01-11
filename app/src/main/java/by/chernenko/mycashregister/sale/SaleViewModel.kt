@@ -1,13 +1,22 @@
 package by.chernenko.mycashregister.sale
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import by.chernenko.data.CartDao
+import by.chernenko.data.CartEntity
 import by.chernenko.mycashregister.common.NumpadAction
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class SaleViewModel : ViewModel() {
+@HiltViewModel
+class SaleViewModel @Inject constructor(
+    private val cartDao: CartDao
+) : ViewModel() {
     private val _totalAmount = MutableStateFlow("0,00")
     val totalAmount: StateFlow<String> = _totalAmount.asStateFlow()
 
@@ -38,6 +47,7 @@ class SaleViewModel : ViewModel() {
     private fun addToReceipt() {
         if (_input.value == "0,00") return
 
+        // UI update
         if (_totalAmount.value == "0,00") {
             _totalAmount.value = _input.value
         } else {
@@ -47,6 +57,16 @@ class SaleViewModel : ViewModel() {
         }
         _quantity.value += 1
         _input.value = "0,00"
+
+        // Save data
+        viewModelScope.launch(Dispatchers.IO) {
+            cartDao.insert(CartEntity(
+                price = 5,
+                quantity = 2,
+                discount = 0,
+                discountedPrice = 5
+            ))
+        }
     }
 
     private fun processInput(number: String) {

@@ -9,8 +9,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.compose.rememberNavController
 import by.chernenko.mycashregister.leftmenu.AppContent
 import by.chernenko.mycashregister.ui.theme.MyCashRegisterTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
